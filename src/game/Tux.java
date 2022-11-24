@@ -6,6 +6,7 @@ package game;
 
 import env3d.Env;
 import env3d.advanced.EnvNode;
+import java.util.concurrent.TimeUnit;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -30,56 +31,62 @@ public class Tux extends EnvNode {
         setModel("models/tux/tux.obj");
     }
 
-    
-    private Boolean testeRoomCollision(double x, double z){
-        Boolean res= false; 
-        
-        if(x> 60 || x <0 ){
+    private Boolean testeRoomCollision(double x, double z) {
+        Boolean res = false;
+
+        if (x > 60 || x < 0) {
             res = true;
         }
-        if(z> 100   || z < 0){
-            res = true; 
+        if (z > 100 || z < 0) {
+            res = true;
         }
         //if(collision == true){
-         //   res =true;
-       // }
+        //   res =true;
+        // }
         return res;
     }
-    public void déplace(Boolean collision) {
+
+    public void déplace(Boolean collision) throws InterruptedException {
         if (env.getKeyDown(Keyboard.KEY_Z) || env.getKeyDown(Keyboard.KEY_UP)) { // Fleche 'haut' ou Z
             // Haut
-            if(!testeRoomCollision(this.getX() , this.getZ()-1)&& !collision){
+            if (!testeRoomCollision(this.getX(), this.getZ() - 1) && !collision) {
                 this.setRotateY(180);
                 this.setZ(this.getZ() - 1.0);
             }
-            
+
         }
         if (env.getKeyDown(Keyboard.KEY_Q) || env.getKeyDown(Keyboard.KEY_LEFT)) { // Fleche 'gauche' ou Q
             // Gauche
-            if(!testeRoomCollision(this.getX()-1 , this.getZ())&& !collision){
+            if (!testeRoomCollision(this.getX() - 1, this.getZ()) && !collision) {
                 this.setRotateY(270);
                 this.setX(this.getX() - 1.0);
-            }            
+            }
         }
         if (env.getKeyDown(Keyboard.KEY_D) || env.getKeyDown(Keyboard.KEY_RIGHT)) { // Fleche 'droite' ou D
             // Droite
-            if(!testeRoomCollision(this.getX()+1 , this.getZ()) && !collision){
+            if (!testeRoomCollision(this.getX() + 1, this.getZ()) && !collision) {
                 this.setRotateY(90);
                 this.setX(this.getX() + 1.0);
 
             }
-            
+
         }
         if (env.getKeyDown(Keyboard.KEY_S) || env.getKeyDown(Keyboard.KEY_DOWN)) { // Fleche 'bas' ou S
             // Bas
-            if(!testeRoomCollision(this.getX() , this.getZ()+1) && !collision){            
+            if (!testeRoomCollision(this.getX(), this.getZ() + 1) && !collision) {
                 this.setRotateY(360);
                 this.setZ(this.getZ() + 1.0);
             }
         }
-        
+        /*if (env.getKeyDown(Keyboard.KEY_SPACE) || env.getKeyDown(Keyboard.KEY_UP)) { // Fleche 'bas' ou S
+            // Bas
+            this.setY(this.getY() + 4);
+            Thread.sleep(1000);
+            this.setY(this.getY() -4);
+
+
+        }*/
+
     }
-    
-    
-    
+
 }
