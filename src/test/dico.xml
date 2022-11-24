@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this template
+-->
+
+
+
+<dictionnaire>
+    
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xmlns='http://myGame/tux'
+    xsi:schemaLocation='http://myGame/tux ../xsd/dico.xsd'>
+    <mot niveau="1">oui</mot>
+    <mot niveau="1">non</mot>
+    <mot niveau="1">maman</mot>
+    <mot niveau="1">papa</mot>
+    <mot niveau="1">vache</mot>
+    
+    <mot niveau="2">voiture</mot>
+    <mot niveau="2">arbre</mot>
+    <mot niveau="2">maison</mot>
+    <mot niveau="2">nuage</mot>
+    <mot niveau="2">feu</mot>
+    
+    <mot niveau="3">etoiles</mot>
+    <mot niveau="3">crevette</mot>
+    <mot niveau="3">nourriture</mot>
+    <mot niveau="3">ordinateur</mot>
+    <mot niveau="3">pingouin</mot>
+    
+    <mot niveau="4">echelle</mot>
+    <mot niveau="4">crustace</mot>
+    <mot niveau="4">université</mot>
+    <mot niveau="4">amerique</mot>
+    <mot niveau="4">continent</mot>
+    
+    <mot niveau="5">planete</mot>
+    <mot niveau="5">squelette</mot>
+    <mot niveau="5">relechir</mot>
+    <mot niveau="5">télévision</mot>
+    <mot niveau="5">alpinisme</mot>
+    <mot niveau="5">perroquet</mot>
+</dictionnaire>
+
