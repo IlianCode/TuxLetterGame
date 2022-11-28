@@ -18,8 +18,8 @@ public class JeuDevineLeMotOrdre extends Jeu{
 
     private Boolean tuxTrouveLettre(){
                 //valeur par défaut 
-
-        return false;
+        Boolean trouvee = coli(lettres.get(0));
+        return trouvee;
         
     }
 
