@@ -89,7 +89,7 @@ public abstract class Jeu {
         Boolean finished;
         finished = false;
         while (!finished) {
-            Boolean collision = false;
+            Boolean col = false;
 
             // Contrôles globaux du jeu (sortie, ...)
             //1 is for escape key
@@ -99,13 +99,12 @@ public abstract class Jeu {
             // Contrôles des déplacements de Tux (gauche, droite, ...)
             for (Letter l : lettres) {
                 if (collision(l)) {
-                    collision = true;
+                    col = true;
                 }
-                System.out.println("distance avec " + l.getLetter()+" : "+ distance(l) + "collision ? : "+ collision);
                 
             }
             try {
-                tux.déplace(collision);
+                tux.déplace(col);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -141,7 +140,7 @@ public abstract class Jeu {
     }
 
     protected Boolean collision(Letter letter) {
-        Boolean res= null;
+        Boolean res= false;
         Double tuxScale = tux.getScale();
         //valeur par défaut 
         if (env.getKeyDown(Keyboard.KEY_Z) || env.getKeyDown(Keyboard.KEY_UP)) { // Fleche 'haut' ou Z
