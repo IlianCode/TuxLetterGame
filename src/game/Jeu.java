@@ -7,6 +7,8 @@ package game;
 import static com.jme3.math.FastMath.rand;
 import env3d.Env;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -20,7 +22,7 @@ public abstract class Jeu {
     private Profil profil;
     private Tux tux;
     private Letter letter;
-    private ArrayList<Letter> lettres;
+    protected ArrayList<Letter> lettres;
     private Dico dico;
 
     public Jeu() {
@@ -66,7 +68,7 @@ public abstract class Jeu {
 
         dico.ajouteMotADico(1, "cheval");
         //String motAdd = dico.getMotDepuisListeNiveau(1);
-        String motAdd ="t";
+        String motAdd = "t";
         for (int i = 0; i < motAdd.length(); i++) {
             lettres.add(new Letter(motAdd.charAt(i), rand.nextInt(60), rand.nextInt(100)));
         }
@@ -98,11 +100,15 @@ public abstract class Jeu {
             for (Letter l : lettres) {
                 if (collision(l)) {
                     collision = true;
-                    System.out.println(distance(l));
                 }
+                System.out.println("distance avec " + l.getLetter()+" : "+ distance(l) + "collision ? : "+ collision);
+                
             }
-            
-            tux.déplace(collision);
+            try {
+                tux.déplace(collision);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
+            }
             // Ici, on applique les regles
             appliqueRegles(partie);
 
@@ -128,41 +134,54 @@ public abstract class Jeu {
     }
 
     protected double distance(Letter letter) {
-        Double posTux ;
-        posTux = tux.getX() - letter.getX();
-        return posTux;
+        double dist;
+        dist = Math.sqrt( Math.pow(letter.getX() - tux.getX(), 2) + Math.pow(letter.getY() - tux.getY(), 2) + Math.pow(letter.getZ() - tux.getZ(), 2) );
+        return dist;
+
     }
 
     protected Boolean collision(Letter letter) {
-        Boolean res = false;
+        Boolean res= null;
+        Double tuxScale = tux.getScale();
         //valeur par défaut 
         if (env.getKeyDown(Keyboard.KEY_Z) || env.getKeyDown(Keyboard.KEY_UP)) { // Fleche 'haut' ou Z
-            if (tux.getZ() - 4 == letter.getZ() + 4 && (letter.getX() - 4 <= tux.getX() + 4 && letter.getX() + 4 >= tux.getX() - 4)) {
+     
+            if (tux.getZ() - tuxScale == letter.getZ() + tuxScale && (letter.getX() - tuxScale <= tux.getX() + tuxScale && letter.getX() + tuxScale >= tux.getX() - tuxScale)) {
                 res = true;
 
+            }else{
+                res=false;
             }
         }
+        
+        
         if (env.getKeyDown(Keyboard.KEY_Q) || env.getKeyDown(Keyboard.KEY_LEFT)) { // Fleche 'gauche' ou Q
             // Gauche
-            if (tux.getX() - 4 == letter.getX() + 4 && (letter.getZ() - 4 <= tux.getZ() + 4 && letter.getZ() + 4 >= tux.getZ() - 4)) {
+            if (tux.getX() - tuxScale == letter.getX() + tuxScale && (letter.getZ() - tuxScale <= tux.getZ() + tuxScale && letter.getZ() + tuxScale >= tux.getZ() - tuxScale)) {
                 res = true;
+            }else{
+                res=false;
             }
 
         }
         if (env.getKeyDown(Keyboard.KEY_D) || env.getKeyDown(Keyboard.KEY_RIGHT)) { // Fleche 'droite' ou D
             // Droite
-            if (tux.getX() + 4 == letter.getX() - 4 && (letter.getZ() - 4 <= tux.getZ() + 4 && letter.getZ() + 4 >= tux.getZ() - 4)) {
+            if (tux.getX() + tuxScale == letter.getX() - tuxScale && (letter.getZ() - tuxScale <= tux.getZ() + tuxScale && letter.getZ() + tuxScale >= tux.getZ() - tuxScale)) {
                 res = true;
                 //&& l.getZ() == tux.getZ()
 
+            }else{
+                res=false;
             }
 
         }
         if (env.getKeyDown(Keyboard.KEY_S) || env.getKeyDown(Keyboard.KEY_DOWN)) { // Fleche 'bas' ou S
             // Bas
-            if (tux.getZ() + 4 == letter.getZ() - 4 && (letter.getX() - 4 <= tux.getX() + 4 && letter.getX() + 4 >= tux.getX() - 4)) {
+            if (tux.getZ() + tuxScale == letter.getZ() - tuxScale && (letter.getX() - tuxScale <= tux.getX() + tuxScale && letter.getX() + tuxScale >= tux.getX() - tuxScale)) {
                 res = true;
 
+            }else{
+                res=false;
             }
 
         }
