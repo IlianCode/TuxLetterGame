@@ -50,6 +50,7 @@ public class JeuDevineLeMotOrdre extends Jeu{
             if(nbLettresRestantes == 0) {
                 partie.setEnd(true);
             }
+            System.out.println("test");
         }else {
             partie.setEnd(true);
         }
@@ -57,7 +58,12 @@ public class JeuDevineLeMotOrdre extends Jeu{
 
     @Override
     protected void terminePartie(Partie partie) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(!chrono.remainsTime()){
+            partie.setTrouvé(nbLettresRestantes);
+        }else{
+            partie.setTemps(chrono.timeSpent());
+            partie.setTrouvé(0);
+        }
     }
 
 
