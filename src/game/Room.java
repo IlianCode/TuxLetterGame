@@ -23,10 +23,10 @@ public class Room {
         this.depth =100;
         this.height=100;
         this.width =60;
-        this.textureBottom="/home/b/benaisil/Bureau/TuxLetterGame_template/textures/floor/grass1.png";
-        this.textureNorth="/home/b/benaisil/Bureau/TuxLetterGame_template/textures/skybox/snow/north.png";
-        this.textureEast = "/home/b/benaisil/Bureau/TuxLetterGame_template/textures/skybox/snow/east.png";
-        this.textureWest = "/home/b/benaisil/Bureau/TuxLetterGame_template/textures/skybox/snow/west.png";
+        this.textureBottom="/textures/floor/grass1.png";
+        this.textureNorth="/textures/skybox/snow/north.png";
+        this.textureEast = "/textures/skybox/snow/east.png";
+        this.textureWest = "/textures/skybox/snow/west.png";
         this.textureTop = null;
         this.textureSouth = null;
         

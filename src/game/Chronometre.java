@@ -1,6 +1,7 @@
 package game;
 
 public class Chronometre {
+
     private long begin;
     private long end;
     private long current;
@@ -9,47 +10,53 @@ public class Chronometre {
     public Chronometre(int limite) {
         //intialisation
         this.limite = limite;
-        
+
     }
-    
-    public void start(){
+
+    public void start() {
         begin = System.currentTimeMillis();
-        this.end = this.begin+limite; 
+        this.end = this.begin + limite;
     }
- 
-    public void stop(){
+
+    public void stop() {
         end = this.current;
     }
- 
+
     public long getTime() {
         current = System.currentTimeMillis();
-        return end-begin;
+        return end - begin;
     }
- 
+
     public long getMilliseconds() {
-        return end-begin;
+        return end - begin;
     }
- 
+
     public int getSeconds() {
         return (int) ((end - begin) / 1000.0);
     }
- 
+
     public double getMinutes() {
         return (end - begin) / 60000.0;
     }
- 
+
     public double getHours() {
         return (end - begin) / 3600000.0;
     }
-    
+
     /**
-    * Method to know if it remains time.
-    */
+     * Method to know if it remains time.
+     */
     public boolean remainsTime() {
         current = System.currentTimeMillis();
         int timeSpent;
         timeSpent = (int) ((current - begin));
         return (limite >= timeSpent);
     }
-     
+
+    public int timeSpent() {
+        current = System.currentTimeMillis();
+        int timeSpent;
+        timeSpent = (int) ((current - begin) / 1000.0);
+        return timeSpent;
+    }
 }

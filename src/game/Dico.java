@@ -9,6 +9,8 @@ import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -33,6 +35,13 @@ public class Dico {
         listeNiveau3 = new ArrayList<String>();
         listeNiveau4 = new ArrayList<String>();
         listeNiveau5 = new ArrayList<String>();
+        try {
+            lireDictionnaireDOM(this.cheminFichierDico , "dico.xml");
+        } catch (SAXException ex) {
+            Logger.getLogger(Dico.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Dico.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private int vérifieNiveau(int niveau) {

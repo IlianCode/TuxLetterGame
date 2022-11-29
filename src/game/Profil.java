@@ -4,12 +4,32 @@
  */
 package game;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author benaisil
  */
 public class Profil {
-    public Profil(){
-        
+
+    private String nom;
+    private String dateNaissance;
+    private boolean existe = false;
+    private ArrayList<Partie> parties;
+
+    public Profil() {
+
+    }
+
+    public Profil(String nom, String dateNaissance) {
+        this.nom = nom;
+        this.dateNaissance = dateNaissance;
+        this.existe = true;
+        this.parties = new ArrayList<Partie>();
+
+    }
+
+    public boolean charge(String nomJoueur) {
+        return this.existe;
     }
 }

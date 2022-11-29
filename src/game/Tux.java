@@ -46,10 +46,10 @@ public class Tux extends EnvNode {
         return res;
     }
 
-    public void déplace(Boolean collision) throws InterruptedException {
+    public void deplace() throws InterruptedException {
         if (env.getKeyDown(Keyboard.KEY_Z) || env.getKeyDown(Keyboard.KEY_UP)) { // Fleche 'haut' ou Z
             // Haut
-            if (!testeRoomCollision(this.getX(), this.getZ() - 1) && !collision) {
+            if (!testeRoomCollision(this.getX(), this.getZ() - 1)) {
                 this.setRotateY(180);
                 this.setZ(this.getZ() - 1.0);
             }
@@ -57,14 +57,14 @@ public class Tux extends EnvNode {
         }
         if (env.getKeyDown(Keyboard.KEY_Q) || env.getKeyDown(Keyboard.KEY_LEFT)) { // Fleche 'gauche' ou Q
             // Gauche
-            if (!testeRoomCollision(this.getX() - 1, this.getZ()) && !collision) {
+            if (!testeRoomCollision(this.getX() - 1, this.getZ())) {
                 this.setRotateY(270);
                 this.setX(this.getX() - 1.0);
             }
         }
         if (env.getKeyDown(Keyboard.KEY_D) || env.getKeyDown(Keyboard.KEY_RIGHT)) { // Fleche 'droite' ou D
             // Droite
-            if (!testeRoomCollision(this.getX() + 1, this.getZ()) && !collision) {
+            if (!testeRoomCollision(this.getX() + 1, this.getZ()) ) {
                 this.setRotateY(90);
                 this.setX(this.getX() + 1.0);
 
@@ -73,7 +73,7 @@ public class Tux extends EnvNode {
         }
         if (env.getKeyDown(Keyboard.KEY_S) || env.getKeyDown(Keyboard.KEY_DOWN)) { // Fleche 'bas' ou S
             // Bas
-            if (!testeRoomCollision(this.getX(), this.getZ() + 1) && !collision) {
+            if (!testeRoomCollision(this.getX(), this.getZ() + 1) ) {
                 this.setRotateY(360);
                 this.setZ(this.getZ() + 1.0);
             }
