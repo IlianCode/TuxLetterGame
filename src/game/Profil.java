@@ -16,6 +16,7 @@ public class Profil {
     private String dateNaissance;
     private boolean existe = false;
     private ArrayList<Partie> parties;
+    private String avatar;
 
     public Profil() {
 
@@ -24,12 +25,16 @@ public class Profil {
     public Profil(String nom, String dateNaissance) {
         this.nom = nom;
         this.dateNaissance = dateNaissance;
-        this.existe = true;
+        this.avatar = avatar;
         this.parties = new ArrayList<Partie>();
 
     }
 
     public boolean charge(String nomJoueur) {
         return this.existe;
+    }
+    
+    public String getNom(){
+        return this.nom;
     }
 }
