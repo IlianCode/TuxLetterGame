@@ -31,14 +31,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this 
     
     <mot niveau="4">echelle</mot>
     <mot niveau="4">crustace</mot>
-    <mot niveau="4">université</mot>
+    <mot niveau="4">universite</mot>
     <mot niveau="4">amerique</mot>
     <mot niveau="4">continent</mot>
     
     <mot niveau="5">planete</mot>
     <mot niveau="5">squelette</mot>
     <mot niveau="5">relechir</mot>
-    <mot niveau="5">télévision</mot>
+    <mot niveau="5">television</mot>
     <mot niveau="5">alpinisme</mot>
     <mot niveau="5">perroquet</mot>
 </dictionnaire>
