@@ -240,10 +240,21 @@ public abstract class Jeu {
                 // Touche 2 : Charger une partie existante
                 // -----------------------------------------                
                 case Keyboard.KEY_2: // charge une partie existante
-                    partie = new Partie("2018-09-7", "test", 1); //XXXXXXXXX
+                    
+                    niveau = getNiveauMot();
+                    mot = dico.getMotDepuisListeNiveau(niveau);
+                    date = getDate(); 
+                    partie = new Partie(date, mot, niveau); //XXXXXXXXX
                     // Recupère le mot de la partie existante
                     // ..........
                     // joue
+                    
+                    
+                    
+                    
+                    env.setRoom(mainRoom);
+
+                    partie = new Partie(date, mot, niveau);
                     joue(partie);
                     // enregistre la partie dans le profil --> enregistre le profil
                     // .......... profil.******
