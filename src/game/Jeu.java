@@ -76,21 +76,21 @@ public abstract class Jeu {
 
         // Textes affichés à l'écran
         //deuxieme menu
-        menuText.addText("Voulez vous ?", "Question", 200, 300);
-        menuText.addText("1. Commencer une nouvelle partie ?", "Jeu1", 250, 280);
-        menuText.addText("2. Charger une partie existante ?", "Jeu2", 250, 260);
-        menuText.addText("3. Revenir au menu principal ?", "Jeu3", 250, 240);
-        menuText.addText("4. Quitter le jeu ?", "Jeu4", 250, 220);
+        menuText.addText("Voulez vous ?", "Question", 130, 300);
+        menuText.addText("1. Commencer une nouvelle partie ?", "Jeu1", 180, 280);
+        menuText.addText("2. Charger une partie existante ? (fonctionnalité à venir )", "Jeu2", 180, 260);
+        menuText.addText("3. Revenir au menu principal ?", "Jeu3", 180, 240);
+        menuText.addText("4. Quitter le jeu ?", "Jeu4", 180, 220);
 
         menuText.addText("Choisissez un nom de joueur : ", "NomJoueur", 200, 300);
 
         //menu 1
-        menuText.addText("1. Charger un profil de joueur existant ?", "Principal1", 250, 280);
-        menuText.addText("2. Créer un nouveau joueur ?", "Principal2", 250, 260);
-        menuText.addText("3. Ajouter un mot au dictionnaire ?", "ajoutMot", 250, 240);
+        menuText.addText("1. Charger un profil de joueur existant ? ( fonctionnalité a venir)", "Principal1", 180, 280);
+        menuText.addText("2. Créer un nouveau joueur ?", "Principal2", 180, 260);
+        menuText.addText("3. Ajouter un mot au dictionnaire ?", "ajoutMot", 180, 240);
         menuText.addText("Choisissez un mot a ajouter : ", "nouveauMot", 200, 300);
 
-        menuText.addText("4. Sortir du jeu ?", "Principal3", 250, 220);
+        menuText.addText("4. Sortir du jeu ?", "Principal3", 180, 220);
 
         //ajout choix niveau ?
         menuText.addText("Veuillez choisir un niveau de difficulté : ", "choixniveau", 200, 300);
@@ -153,7 +153,7 @@ public abstract class Jeu {
         menuText.getText("Niveau4").display();
         menuText.getText("Niveau5").display();
         int niveau = 0;
-        while (!(niveau == Keyboard.KEY_Y || niveau == Keyboard.KEY_U || niveau == Keyboard.KEY_I || niveau == Keyboard.KEY_O || niveau == Keyboard.KEY_P)) {
+        while (!(niveau == Keyboard.KEY_1 || niveau == Keyboard.KEY_2 || niveau == Keyboard.KEY_3 || niveau == Keyboard.KEY_4 || niveau == Keyboard.KEY_5)) {
             niveau = env.getKey();
             env.advanceOneFrame();
         }
@@ -165,19 +165,19 @@ public abstract class Jeu {
         menuText.getText("Niveau4").clean();
         menuText.getText("Niveau5").clean();
         switch (niveau) {
-            case Keyboard.KEY_Y:
+            case Keyboard.KEY_1:
                 niveau = 1;
                 break;
-            case Keyboard.KEY_U:
+            case Keyboard.KEY_2:
                 niveau = 2;
                 break;
-            case Keyboard.KEY_I:
+            case Keyboard.KEY_3:
                 niveau = 3;
                 break;
-            case Keyboard.KEY_O:
+            case Keyboard.KEY_4:
                 niveau = 4;
                 break;
-            case Keyboard.KEY_P:
+            case Keyboard.KEY_5:
                 niveau = 5;
                 break;
             default:
@@ -205,13 +205,13 @@ public abstract class Jeu {
 
             // vérifie qu'une touche 1, 2, 3 ou 4 est pressée
             int touche = 0;
-            while (!(touche == Keyboard.KEY_Y || touche == Keyboard.KEY_U || touche == Keyboard.KEY_I || touche == Keyboard.KEY_O)) {
+            while (!(touche == Keyboard.KEY_1  || touche == Keyboard.KEY_3 || touche == Keyboard.KEY_4)) {
                 touche = env.getKey();
                 env.advanceOneFrame();
             }
 
             // nettoie l'environnement du texte
-            // menuText.getText("Question").clean();
+             menuText.getText("Question").clean();
             menuText.getText("Jeu1").clean();
             menuText.getText("Jeu2").clean();
             menuText.getText("Jeu3").clean();
@@ -225,7 +225,7 @@ public abstract class Jeu {
                 // -----------------------------------------
                 // Touche 1 : Commencer une nouvelle partie
                 // -----------------------------------------                
-                case Keyboard.KEY_Y: // choisi un niveau et charge un mot depuis le dico
+                case Keyboard.KEY_1: // choisi un niveau et charge un mot depuis le dico
                     // .......... dico.******
                     // crée un nouvelle partie
                     int niveau = getNiveauMot();
@@ -244,8 +244,8 @@ public abstract class Jeu {
                     env.setRoom(mainRoom);
 
                     joue(partie);
-                    System.out.println(profil.getNom() + ".xml");
-                    profil.sauvegarder("Data/xml/profils/" + profil.getNom() + ".xml");
+                  //  System.out.println(profil.getNom() + ".xml");
+                   // profil.sauvegarder("Data/xml/profils/" + profil.getNom() + ".xml");
 
                     // enregistre la partie dans le profil --> enregistre le profil
                     // .......... profil.******
@@ -255,7 +255,7 @@ public abstract class Jeu {
                 // -----------------------------------------
                 // Touche 2 : Charger une partie existante
                 // -----------------------------------------                
-                case Keyboard.KEY_U: // charge une partie existante
+               /* case Keyboard.KEY_2: // charge une partie existante
 
                     niveau = getNiveauMot();
                     mot = dico.getMotDepuisListeNiveau(niveau);
@@ -273,18 +273,18 @@ public abstract class Jeu {
                     // .......... profil.******
                     playTheGame = MENU_VAL.MENU_JOUE;
                     break;
-
+*/
                 // -----------------------------------------
                 // Touche 3 : Sortie de ce jeu
                 // -----------------------------------------                
-                case Keyboard.KEY_I:
+                case Keyboard.KEY_3:
                     playTheGame = MENU_VAL.MENU_CONTINUE;
                     break;
 
                 // -----------------------------------------
                 // Touche 4 : Quitter le jeu
                 // -----------------------------------------                
-                case Keyboard.KEY_O:
+                case Keyboard.KEY_4:
                     playTheGame = MENU_VAL.MENU_SORTIE;
             }
         } while (playTheGame == MENU_VAL.MENU_JOUE);
@@ -308,7 +308,7 @@ public abstract class Jeu {
 
         // vérifie qu'une touche 1, 2 ou 3 est pressée
         int touche = 0;
-        while (!(touche == Keyboard.KEY_Y || touche == Keyboard.KEY_U || touche == Keyboard.KEY_I || touche == Keyboard.KEY_O)) {
+        while (!(touche == Keyboard.KEY_2 || touche == Keyboard.KEY_3 || touche == Keyboard.KEY_4)) {
             touche = env.getKey();
             env.advanceOneFrame();
         }
@@ -326,7 +326,7 @@ public abstract class Jeu {
             // -------------------------------------
             // Touche 1 : Charger un profil existant
             // -------------------------------------
-            case Keyboard.KEY_Y:
+            /*case Keyboard.KEY_1:
                 // demande le nom du joueur existant
                 nomJoueur = getNomJoueur();
 
@@ -338,12 +338,12 @@ public abstract class Jeu {
                 } else {
                     choix = menuPrincipal();//CONTINUE;
                 }
-                break;
+                break;*/
 
             // -------------------------------------
             // Touche 2 : Créer un nouveau joueur
             // -------------------------------------
-            case Keyboard.KEY_U:
+            case Keyboard.KEY_2:
                 // demande le nom du nouveau joueur
                 nomJoueur = getNomJoueur();
                 // crée un profil avec le nom d'un nouveau joueur
@@ -351,7 +351,7 @@ public abstract class Jeu {
                 choix = menuJeu();
                 break;
 
-            case Keyboard.KEY_O:
+            case Keyboard.KEY_4:
                 String newMot = getNewMot();
                 Integer niveau = getNiveauMot();
                 edit.lireDOM("../TuxLetterGame/src/test/dico.xml");
@@ -363,7 +363,7 @@ public abstract class Jeu {
 // -------------------------------------
             // Touche 3 : Sortir du jeu
             // -------------------------------------
-            case Keyboard.KEY_I:
+            case Keyboard.KEY_3:
                 choix = MENU_VAL.MENU_SORTIE;
 
         }
