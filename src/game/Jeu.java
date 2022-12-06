@@ -69,7 +69,7 @@ public abstract class Jeu {
         lettres = new ArrayList<Letter>();
 
         // Dictionnaire
-        dico = new Dico("../TuxLetterGame/src/test/dico.xml");
+        dico = new Dico("../TuxLetterGame/src/Data/xml/dico.xml");
 
         // instancie le menuText
         menuText = new EnvTextMap(env);
@@ -354,10 +354,10 @@ public abstract class Jeu {
             case Keyboard.KEY_I:
                 String newMot = getNewMot();
                 Integer niveau = getNiveauMot();
-                edit.lireDOM("../TuxLetterGame/src/test/dico.xml");
+                edit.lireDOM("../TuxLetterGame/src/Data/xml/dico.xml");
 
                 edit.ajouterMot(newMot, niveau);
-                edit.ecrireDOM("../TuxLetterGame/src/test/dico.xml");
+                edit.ecrireDOM(".../TuxLetterGame/src/Data/xml/dico.xml");
                 choix = menuJeu();
                 break;
 // -------------------------------------
