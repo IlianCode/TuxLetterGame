@@ -6,18 +6,24 @@ package game;
 
 import static com.jme3.math.FastMath.rand;
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import org.xml.sax.helpers.DefaultHandler;
 import org.w3c.dom.*;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
  *
  * @author benaisil
  */
-public class Dico {
+public class Dico extends DefaultHandler{
 
     private ArrayList<String> listeNiveau1;
     private ArrayList<String> listeNiveau2;
@@ -31,7 +37,7 @@ public class Dico {
 
     private StringBuffer buffer;
 
-    public Dico(String cheminFichierDico) {
+    public Dico(String cheminFichierDico) throws ParserConfigurationException {
         super();
         this.cheminFichierDico = cheminFichierDico;
         listeNiveau1 = new ArrayList<String>();
@@ -40,7 +46,7 @@ public class Dico {
         listeNiveau4 = new ArrayList<String>();
         listeNiveau5 = new ArrayList<String>();
         try {
-            lireDictionnaireDOM(this.cheminFichierDico, "dico.xml");
+            lireDictionnaire();
         } catch (SAXException ex) {
             Logger.getLogger(Dico.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -184,19 +190,17 @@ public class Dico {
         }
 
     }
-}
 
-   /* public void lireDictionnaire() throws SAXException, IOException {
+    public void lireDictionnaire() throws SAXException, IOException, ParserConfigurationException {
         SAXParserFactory fabrique = SAXParserFactory.newInstance();
         SAXParser parseur = fabrique.newSAXParser();
 
         File fichier = new File(cheminFichierDico);
-        DefaultHandler gestionnaire;
-        gestionnaire = new DefaultHandler();
-        parseur.parse(fichier, gestionnaire);
 
-    }*/
-/*
+        parseur.parse(fichier, this);
+
+    }
+
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
         buffer = new StringBuffer();
         if (qName.equals("mot")) {
@@ -268,4 +272,4 @@ public class Dico {
     @Override
     public void endDocument() {
     }
-}*/
+}

@@ -5,6 +5,7 @@
 package game;
 
 import java.util.ArrayList;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  *
@@ -17,16 +18,17 @@ public class JeuDevineLeMotOrdre extends Jeu {
     private Chronometre chrono;
     int nbLetterLeft;
 
-    private ArrayList<String> motATrouver = new  ArrayList<String>();
+    private ArrayList<String> motATrouver = new ArrayList<String>();
 
     private ArrayList<Letter> lettresRestantes;
     private ArrayList<Letter> lettresTrouvees;
 
-    public JeuDevineLeMotOrdre() {
+    private boolean found = false;
+
+    public JeuDevineLeMotOrdre() throws ParserConfigurationException {
         super();
         lettresRestantes = new ArrayList<Letter>();
         lettresTrouvees = new ArrayList<Letter>();
-        
 
     }
 
@@ -66,21 +68,25 @@ public class JeuDevineLeMotOrdre extends Jeu {
         int lettreIndice;
         int i = 0;
 
-        for (Letter l : lettres) {
-            if (coli(l)) {
-                System.out.println(l.toString());
-                if (motATrouver.get(0).equals(l.toString())) {
-                    env.removeObject(l);
-                    motATrouver.remove(0);
+        if (!motATrouver.isEmpty()) {
+            for (Letter l : lettres) {
+                if (coli(l)) {
+                    System.out.println(l.toString());
+                    if (motATrouver.get(0).equals(l.toString())) {
+                        env.removeObject(l);
+                        motATrouver.remove(0);
 
+                    }
+                    // System.out.println("in");
+                } else {
+                    //  System.out.println("out");
                 }
-                // System.out.println("in");
-            } else {
-                //  System.out.println("out");
-            }
 
+            }
         }
+
         if (motATrouver.isEmpty()) {
+            found = true;
             partie.setEnd(true);
 
         }
@@ -113,8 +119,8 @@ public class JeuDevineLeMotOrdre extends Jeu {
 
         nbLettresrestantes = getNbLettresRestantes();
         for (char c : caract) {
-            
-            motATrouver.add(Character.toString(c) );
+
+            motATrouver.add(Character.toString(c));
         }
         //comporte les lettres qui sont mal choisi/désodre
     }
@@ -123,4 +129,9 @@ public class JeuDevineLeMotOrdre extends Jeu {
         return lettresRestantes.size();
     }
 
+    @Override
+    protected boolean isFound(Partie partie) {
+        return this.found;
+
+    }
 }

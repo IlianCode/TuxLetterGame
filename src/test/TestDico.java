@@ -10,10 +10,11 @@ package test;
  */
 import game.Dico;
 import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 public class TestDico {
 
-    public static void main(String[] args) throws SAXException, IOException {
+    public static void main(String[] args) throws SAXException, IOException, ParserConfigurationException {
         Dico dictionnaire = new Dico("testdico.xml");
         
         

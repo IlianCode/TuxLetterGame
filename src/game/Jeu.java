@@ -41,7 +41,7 @@ public abstract class Jeu {
     protected EnvTextMap menuText;                         //text (affichage des texte du jeu)
     protected ArrayList<Letter> lettres;
 
-    public Jeu() {
+    public Jeu() throws ParserConfigurationException {
 
         // Crée un nouvel environnement
         env = new Env();
@@ -244,7 +244,9 @@ public abstract class Jeu {
                     env.setRoom(mainRoom);
 
                     joue(partie);
-                    profil.sauvegarder(partie);
+                    System.out.println(profil.getNom() + ".xml");
+                    profil.sauvegarder("Data/xml/profils/" + profil.getNom() + ".xml");
+
                     // enregistre la partie dans le profil --> enregistre le profil
                     // .......... profil.******
                     playTheGame = MENU_VAL.MENU_JOUE;
@@ -327,14 +329,14 @@ public abstract class Jeu {
             case Keyboard.KEY_Y:
                 // demande le nom du joueur existant
                 nomJoueur = getNomJoueur();
-                
+
                 // charge le profil de ce joueur si possible
                 if (profil.charge(nomJoueur)) {
                     profil = new Profil(nomJoueur);
                     profil.toString();
                     choix = menuJeu();
                 } else {
-                    choix = MENU_VAL.MENU_SORTIE;//CONTINUE;
+                    choix = menuPrincipal();//CONTINUE;
                 }
                 break;
 
@@ -368,18 +370,17 @@ public abstract class Jeu {
         return choix;
     }
 
-    
-     public char[] decouppeMot(String mot){
+    public char[] decouppeMot(String mot) {
         char motdecoupé[];
         motdecoupé = new char[mot.length()];
-        
-        for (int i=0; i<mot.length(); i++){
+
+        for (int i = 0; i < mot.length(); i++) {
             motdecoupé[i] = mot.charAt(i);
         }
-        
+
         return motdecoupé;
     }
-    
+
     public void joue(Partie partie) {
 
         // Instancie un Tux
@@ -396,7 +397,6 @@ public abstract class Jeu {
             env.addObject(l);
         }
 
-        
         //env.setRoom(mainRoom);
         // Ici, on peut initialiser des valeurs pour une nouvelle partie
         démarrePartie(partie, motAdd);
@@ -422,8 +422,6 @@ public abstract class Jeu {
                 menuText.getText("motGame").clean();
             }
 
-            
-
             try {
                 // Contrôles des déplacements de Tux (gauche, droite, ...)
                 tux.deplace();
@@ -433,9 +431,11 @@ public abstract class Jeu {
 
             // Ici, on applique les regles
             appliqueRegles(partie);
+            finished = isFound(partie);
 
             // Fait avancer le moteur de jeu (mise à jour de l'affichage, de l'écoute des événements clavier...)
             env.advanceOneFrame();
+
         }
         for (Letter l : lettres) {
             env.removeObject(l);
@@ -452,6 +452,8 @@ public abstract class Jeu {
     protected abstract void appliqueRegles(Partie partie);
 
     protected abstract void terminePartie(Partie partie);
+
+    protected abstract boolean isFound(Partie partie);
 
     protected double distance(Letter letter) {
         double dist;

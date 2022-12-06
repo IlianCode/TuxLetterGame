@@ -42,7 +42,7 @@ public final class Profil {
     private Element nomCharge;
     private Element profilEnDOM; //le profil en Dom (Element DOM)
 
-    public final String fileProfilXML = "src/Data/xml/profil.xml";
+    public final String fileProfilXML = "src/Data/xml/test.xml";
     public Document doc;
     private Boolean docCharge = false;
 
@@ -98,16 +98,9 @@ public final class Profil {
         return false;
     }
 
-    public void sauvegarder(Partie p) {
-        //init_doc();
-        p.setDate(profileDateToXmlDate(p.getDate()));
-        Element partie = p.createPartieOnDOM(_doc);
-        Element parties = (Element) profilEnDOM.getElementsByTagName("parties").item(0);
-        parties.appendChild(partie);
-        toXML(fileProfilXML);
+    public void sauvegarder(String filename) {
+        toXML(filename);
     }
-
-    public Document _doc;
 
     // Cree un DOM à partir d'un fichier XML
     // Cree un DOM à partir d'un fichier XML
@@ -123,7 +116,9 @@ public final class Profil {
     // Sauvegarde un DOM en XML
     public void toXML(String nomFichier) {
         try {
-            XMLUtil.DocumentTransform.writeDoc(_doc, nomFichier);
+            // XMLUtil.DocumentTransform.writeDoc(_doc, nomFichier);
+            XMLUtil.DocumentTransform.writeDoc(doc, fileProfilXML);
+           // XMLUtil.DocumentTransform.writeDoc(doc, "Data/xml/profils/"+nomFichier+".xml");
         } catch (Exception ex) {
             Logger.getLogger(Profil.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -164,4 +159,5 @@ public final class Profil {
     public String getNom() {
         return this.nom;
     }
+
 }
