@@ -8,7 +8,6 @@ import static com.jme3.math.FastMath.rand;
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.w3c.dom.*;
@@ -27,8 +26,13 @@ public class Dico {
     private ArrayList<String> listeNiveau5;
 
     private String cheminFichierDico;
+    private boolean boolMot;
+    private int currentLevel;
+
+    private StringBuffer buffer;
 
     public Dico(String cheminFichierDico) {
+        super();
         this.cheminFichierDico = cheminFichierDico;
         listeNiveau1 = new ArrayList<String>();
         listeNiveau2 = new ArrayList<String>();
@@ -36,7 +40,7 @@ public class Dico {
         listeNiveau4 = new ArrayList<String>();
         listeNiveau5 = new ArrayList<String>();
         try {
-            lireDictionnaireDOM(this.cheminFichierDico , "dico.xml");
+            lireDictionnaireDOM(this.cheminFichierDico, "dico.xml");
         } catch (SAXException ex) {
             Logger.getLogger(Dico.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -163,21 +167,105 @@ public class Dico {
             }
         }
 //        Element niveau1 = (Element) listeMot.getAttribute(path)
-        for(String m : motniv1){
+        for (String m : motniv1) {
             listeNiveau1.add(m);
         }
-        for(String m : motniv2){
+        for (String m : motniv2) {
             listeNiveau2.add(m);
         }
-        for(String m : motniv3){
+        for (String m : motniv3) {
             listeNiveau3.add(m);
         }
-        for(String m : motniv4){
+        for (String m : motniv4) {
             listeNiveau4.add(m);
         }
-        for(String m : motniv5){
+        for (String m : motniv5) {
             listeNiveau5.add(m);
         }
-        
+
     }
 }
+
+   /* public void lireDictionnaire() throws SAXException, IOException {
+        SAXParserFactory fabrique = SAXParserFactory.newInstance();
+        SAXParser parseur = fabrique.newSAXParser();
+
+        File fichier = new File(cheminFichierDico);
+        DefaultHandler gestionnaire;
+        gestionnaire = new DefaultHandler();
+        parseur.parse(fichier, gestionnaire);
+
+    }*/
+/*
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
+        buffer = new StringBuffer();
+        if (qName.equals("mot")) {
+            boolMot = true;
+            try {
+                currentLevel = Integer.parseInt(attributes.getValue("niveau"));
+                if (currentLevel < 1 || currentLevel > 5) {
+                    currentLevel = 0;
+                }
+            } catch (NumberFormatException e) {
+                currentLevel = 0;
+            }
+        }
+    }
+
+    @Override
+    public void endElement(String uri, String localName, String qName) {
+        if (qName.equals("mot")) {
+            int bufLen = buffer.toString().length();
+            boolMot = false;
+            switch (currentLevel) {
+                case 0:
+                    if (bufLen > 7) {
+                        currentLevel = 5;
+                    } else {
+                        currentLevel = bufLen - 2;
+                    }
+                // On ne fait pas de break pour pouvoir prendre en compte le nouveau niveau.
+                case 1:
+                    listeNiveau1.add(buffer.toString());
+                    break;
+                case 2:
+                    listeNiveau2.add(buffer.toString());
+                    break;
+                case 3:
+                    listeNiveau3.add(buffer.toString());
+                    break;
+                case 4:
+                    listeNiveau4.add(buffer.toString());
+                    break;
+                case 5:
+                    listeNiveau5.add(buffer.toString());
+                    break;
+                default:
+                    break;
+            }
+            buffer = null;
+        }
+
+    }
+
+    @Override
+    public void characters(char[] ch, int start, int length) {
+        String lecture = new String(ch, start, length);
+        if (buffer != null) {
+            buffer.append(lecture);
+        }
+    }
+
+    @Override
+    public void startDocument() {
+        listeNiveau1 = new ArrayList<String>();
+        listeNiveau2 = new ArrayList<String>();
+        listeNiveau3 = new ArrayList<String>();
+        listeNiveau4 = new ArrayList<String>();
+        listeNiveau5 = new ArrayList<String>();
+    }
+
+    @Override
+    public void endDocument() {
+    }
+}*/
