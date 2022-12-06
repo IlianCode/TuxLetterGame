@@ -33,7 +33,7 @@ public abstract class Jeu {
 
     final Env env;
     private Tux tux;
-    private final Room mainRoom;
+    final Room mainRoom;
     private final Room menuRoom;
     private Letter letter;
     private Profil profil;
@@ -244,6 +244,7 @@ public abstract class Jeu {
                     env.setRoom(mainRoom);
 
                     joue(partie);
+                    profil.sauvegarder(partie);
                     // enregistre la partie dans le profil --> enregistre le profil
                     // .......... profil.******
                     playTheGame = MENU_VAL.MENU_JOUE;
@@ -326,8 +327,11 @@ public abstract class Jeu {
             case Keyboard.KEY_Y:
                 // demande le nom du joueur existant
                 nomJoueur = getNomJoueur();
+                
                 // charge le profil de ce joueur si possible
                 if (profil.charge(nomJoueur)) {
+                    profil = new Profil(nomJoueur);
+                    profil.toString();
                     choix = menuJeu();
                 } else {
                     choix = MENU_VAL.MENU_SORTIE;//CONTINUE;
@@ -348,7 +352,7 @@ public abstract class Jeu {
             case Keyboard.KEY_O:
                 String newMot = getNewMot();
                 Integer niveau = getNiveauMot();
-        edit.lireDOM("../TuxLetterGame/src/test/dico.xml");
+                edit.lireDOM("../TuxLetterGame/src/test/dico.xml");
 
                 edit.ajouterMot(newMot, niveau);
                 edit.ecrireDOM("../TuxLetterGame/src/test/dico.xml");
@@ -364,6 +368,18 @@ public abstract class Jeu {
         return choix;
     }
 
+    
+     public char[] decouppeMot(String mot){
+        char motdecoupé[];
+        motdecoupé = new char[mot.length()];
+        
+        for (int i=0; i<mot.length(); i++){
+            motdecoupé[i] = mot.charAt(i);
+        }
+        
+        return motdecoupé;
+    }
+    
     public void joue(Partie partie) {
 
         // Instancie un Tux
@@ -380,9 +396,10 @@ public abstract class Jeu {
             env.addObject(l);
         }
 
+        
         //env.setRoom(mainRoom);
         // Ici, on peut initialiser des valeurs pour une nouvelle partie
-        démarrePartie(partie);
+        démarrePartie(partie, motAdd);
 
         // Boucle de jeu
         Boolean finished;
@@ -405,15 +422,7 @@ public abstract class Jeu {
                 menuText.getText("motGame").clean();
             }
 
-            for (Letter l : lettres) {
-                if (coli(l)) {
-                    col = true;
-                    System.out.println("in");
-                } else {
-                    //  System.out.println("out");
-                }
-
-            }
+            
 
             try {
                 // Contrôles des déplacements de Tux (gauche, droite, ...)
@@ -438,7 +447,7 @@ public abstract class Jeu {
 
     }
 
-    protected abstract void démarrePartie(Partie partie);
+    protected abstract void démarrePartie(Partie partie, String mot);
 
     protected abstract void appliqueRegles(Partie partie);
 

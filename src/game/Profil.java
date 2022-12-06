@@ -23,6 +23,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import xml.XMLUtil;
 
@@ -38,6 +39,13 @@ public final class Profil {
     private ArrayList<Partie> parties;
     private String avatar;
 
+    private Element nomCharge;
+    private Element profilEnDOM; //le profil en Dom (Element DOM)
+
+    public final String fileProfilXML = "src/Data/xml/profil.xml";
+    public Document doc;
+    private Boolean docCharge = false;
+
     public Profil() {
 
     }
@@ -48,104 +56,60 @@ public final class Profil {
         this.avatar = "";
     }
 
-    
-    
-    
-    
-    
-    public Profil(String filename) {
-
+    public Profil(String nomJoueur) {
+        init_doc();
+//TODO: penser à l'interface du jeu pour charger une partie, afficher tous les profils
+        if (charge(nomJoueur)) {
+            if (nomJoueur.equals(nomCharge.getTextContent())) {
+                profilEnDOM = (Element) nomCharge.getParentNode();
+                Element dateNais = (Element) profilEnDOM.getElementsByTagName("anniversaire").item(0);
+                Element avatar = (Element) profilEnDOM.getElementsByTagName("avatar").item(0);
+                this.nom = nomCharge.getTextContent();
+                this.dateNaissance = xmlDateToProfileDate(dateNais.getTextContent());
+                this.avatar = avatar.getTextContent();
+            }
+        }
     }
 
-    
-    
-    
-    
     public void ajouterPartie(Partie p) {
         parties.add(p);
     }
 
-    public boolean charge(String nomJoueur) {
-        return this.existe;
+    private void init_doc() {
+        doc = fromXML(fileProfilXML);
+        docCharge = true;
     }
 
-    public void sauvegarder(String filename) throws ParserConfigurationException, SAXException, IOException, TransformerException {
-
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder p = dbFactory.newDocumentBuilder();
-        // récupération de la structure objet du document
-        Document doc = p.newDocument();
-
-        Element racine = doc.createElement("profil");
-        doc.appendChild(racine);
-
-        Element name = doc.createElement("nom");
-        name.setTextContent(this.nom);
-        racine.appendChild(name);
-
-        Element Avatar = doc.createElement("avatar");
-        Avatar.setTextContent(this.avatar);
-        racine.appendChild(Avatar);
-
-        Element birthday = doc.createElement("anniversaire");
-        birthday.setTextContent(this.dateNaissance);
-        racine.appendChild(birthday);
-
-        Element games = doc.createElement("parties");
-        racine.appendChild(games);
-
-        for (int i = 0; i < this.parties.size(); i++) {
-
-            Element game = doc.createElement("partie");
-            game.setAttribute("date", this.parties.get(i).getDate());
-            game.setAttribute("trouvé", Integer.toString(this.parties.get(i).getTrouvé()) + "%");
-            racine.appendChild(game);
-
-            Element word = doc.createElement("mot");
-            word.setAttribute("niveau", Integer.toString(this.parties.get(i).getNiveau()));
-            word.setTextContent(this.parties.get(i).getMot());
-            game.appendChild(word);
-
-            Element time = doc.createElement("temps");
-            time.setTextContent(Integer.toString(this.parties.get(i).getTemps()));
-            game.appendChild(time);
+    protected boolean charge(String nomJoueur) {
+        if (!docCharge) {
+            init_doc();
         }
+        NodeList noms = doc.getElementsByTagName("nom");
+        int i;
+        for (i = 0; i < noms.getLength(); i++) {
+            String nom = noms.item(i).getTextContent();
 
-        Source source = new DOMSource(doc);
-
-        // le résultat de cette transformation sera un flux d'écriture dans
-        // un fichier
-        Result resultat = new StreamResult(new File(filename));
-
-        // création du transformateur XML
-        Transformer transfo = null;
-        try {
-            transfo = TransformerFactory.newInstance().newTransformer();
-        } catch (TransformerConfigurationException e) {
-            System.err.println("Impossible de créer un transformateur XML.");
-            System.exit(1);
+            if (nom.equals(nomJoueur)) {
+                nomCharge = (Element) noms.item(i);
+                this.nom = nomJoueur;
+                return true;
+            }
         }
+        return false;
+    }
 
-        // configuration du transformateur
-        // sortie en XML
-        transfo.setOutputProperty(OutputKeys.METHOD, "xml");
-
-        // inclut une déclaration XML (recommandé)
-        transfo.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-
-        // codage des caractères : UTF-8. Ce pourrait être également ISO-8859-1
-        transfo.setOutputProperty(OutputKeys.ENCODING, "utf-8");
-
-        // idente le fichier XML
-        transfo.setOutputProperty(OutputKeys.INDENT, "yes");
-
-        transfo.transform(source, resultat);
+    public void sauvegarder(Partie p) {
+        //init_doc();
+        p.setDate(profileDateToXmlDate(p.getDate()));
+        Element partie = p.createPartieOnDOM(_doc);
+        Element parties = (Element) profilEnDOM.getElementsByTagName("parties").item(0);
+        parties.appendChild(partie);
+        toXML(fileProfilXML);
     }
 
     public Document _doc;
 
     // Cree un DOM à partir d'un fichier XML
-
     // Cree un DOM à partir d'un fichier XML
     public Document fromXML(String nomFichier) {
         try {

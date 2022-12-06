@@ -36,4 +36,8 @@ public class Letter extends EnvNode {
         return letter;
     }
     
+    @Override
+    public String toString(){
+       return Character.toString(letter);
+    }
 }

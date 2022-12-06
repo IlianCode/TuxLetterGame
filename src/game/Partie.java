@@ -12,19 +12,20 @@ import org.w3c.dom.Element;
  * @author benaisil
  */
 public class Partie {
+
     private String date;
     private int niveau;
     private String mot;
     private int temps;
     private int trouvé;
     private Boolean end;
-    
-    public Partie(String date, String mot, int niveau){
-       this.date = date; 
-       this.mot = mot;
-       this.niveau = niveau;
-       this.temps = 0;
-       this.trouvé = 0;
+
+    public Partie(String date, String mot, int niveau) {
+        this.date = date;
+        this.mot = mot;
+        this.niveau = niveau;
+        this.temps = 0;
+        this.trouvé = 0;
     }
 
     Partie(Element partieElt) {
@@ -36,7 +37,7 @@ public class Partie {
         this.date = partieElt.getAttribute("date");
         String trouvé = partieElt.getAttribute("trouvé");
         this.trouvé = Integer.parseInt(trouvé.replace("%", ""));
-        
+
         //reinitialisation des données
         partieElt.setAttribute("trouvé", "" + this.trouvé);
         Element temps = (Element) partieElt.getElementsByTagName("temps").item(0);
@@ -47,18 +48,40 @@ public class Partie {
         this.temps = temps;
     }
 
-    Element getPartie(Document doc){
-         Element partieElem =  (Element) doc.createElement("partie");
+    /*Element getPartie(Document doc) {
+        Element partieElem = (Element) doc.createElement("partie");
         partieElem.setAttribute("date", this.date);
         partieElem.setAttribute("trouvé", this.trouvé + "%");
-        
+
         //balise temps 
         Element tempsElem = (Element) doc.createElement("temps");
         tempsElem.appendChild(doc.createTextNode("" + this.temps));
 
         //balise mot avec attribut niveau
         Element motElem = (Element) doc.createElement("mot");
-        motElem.setAttribute("niveau", ""+this.niveau);
+        motElem.setAttribute("niveau", "" + this.niveau);
+        motElem.appendChild(doc.createTextNode(this.mot));
+
+        //relie 
+        partieElem.appendChild(tempsElem);
+        partieElem.appendChild(motElem);
+
+        return partieElem;
+    }*/
+
+    public Element createPartieOnDOM(Document doc) {
+        //balise partie avec attribut date et trouvé        
+        Element partieElem = (Element) doc.createElement("ns1:partie");
+        partieElem.setAttribute("date", this.date);
+        partieElem.setAttribute("trouvé", this.trouvé + "%");
+
+        //balise temps 
+        Element tempsElem = (Element) doc.createElement("ns1:temps");
+        tempsElem.appendChild(doc.createTextNode("" + this.temps));
+
+        //balise mot avec attribut niveau
+        Element motElem = (Element) doc.createElement("ns1:mot");
+        motElem.setAttribute("niveau", "" + this.niveau);
         motElem.appendChild(doc.createTextNode(this.mot));
 
         //relie 
@@ -67,6 +90,7 @@ public class Partie {
 
         return partieElem;
     }
+
     public void setTrouvé(int trouvé) {
         this.trouvé = trouvé;
     }
@@ -83,9 +107,12 @@ public class Partie {
         this.end = end;
     }
 
-    
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     @Override
-    public String toString(){
+    public String toString() {
         return super.toString() + " ";
     }
 
@@ -100,7 +127,5 @@ public class Partie {
     public int getTemps() {
         return temps;
     }
-    
-    
-    
+
 }
