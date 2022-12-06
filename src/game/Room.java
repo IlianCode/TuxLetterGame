@@ -4,32 +4,53 @@
  */
 package game;
 
+import java.io.File;
+import java.io.IOException;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
 /**
  *
  * @author benaisil
  */
 public class Room {
+
     private int depth;
     private int height;
-    private int width; 
+    private int width;
     private String textureBottom;
     private String textureNorth;
     private String textureEast;
-    private String textureWest; 
+    private String textureWest;
     private String textureTop;
     private String textureSouth;
-    
-    public Room(){
-        this.depth =100;
-        this.height=100;
-        this.width =60;
-        this.textureBottom="/textures/floor/grass1.png";
-        this.textureNorth="/textures/skybox/snow/north.png";
+
+    Document doc;
+
+    public Room() {
+        this.depth = 100;
+        this.height = 100;
+        this.width = 60;
+        this.textureBottom = "/textures/floor/grass1.png";
+        this.textureNorth = "/textures/skybox/snow/north.png";
         this.textureEast = "/textures/skybox/snow/east.png";
         this.textureWest = "/textures/skybox/snow/west.png";
         this.textureTop = null;
         this.textureSouth = null;
-        
+
+    }
+
+    public Room(String filename) throws ParserConfigurationException, SAXException, IOException {
+        doc = fromXML(filename);
+        height = Integer.parseInt(doc.getElementsByTagName("height").item(0).getTextContent());
+        depth = Integer.parseInt(doc.getElementsByTagName("depth").item(0).getTextContent());
+        width = Integer.parseInt(doc.getElementsByTagName("width").item(0).getTextContent());
+        textureBottom = doc.getElementsByTagName("textureBottom").item(0).getTextContent();
+        textureNorth = doc.getElementsByTagName("textureNorth").item(0).getTextContent();
+        textureEast = doc.getElementsByTagName("textureEast").item(0).getTextContent();
+        textureWest = doc.getElementsByTagName("textureWest").item(0).getTextContent();
     }
 
     public int getDepth() {
@@ -104,5 +125,9 @@ public class Room {
         this.textureSouth = textureSouth;
     }
     
-    
+    public Document fromXML(String nomFichier) throws ParserConfigurationException, SAXException, IOException {
+        return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(nomFichier));
+
+    }
+
 }

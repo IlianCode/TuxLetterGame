@@ -137,7 +137,7 @@ public abstract class Jeu {
         menuText.getText("Niveau4").display();
         menuText.getText("Niveau5").display();
         int niveau = 0;
-        while (!(niveau == Keyboard.KEY_1 || niveau == Keyboard.KEY_2 || niveau == Keyboard.KEY_3 || niveau == Keyboard.KEY_4 || niveau == Keyboard.KEY_5)) {
+        while (!(niveau == Keyboard.KEY_Y || niveau == Keyboard.KEY_U || niveau == Keyboard.KEY_I || niveau == Keyboard.KEY_O || niveau == Keyboard.KEY_P)) {
             niveau = env.getKey();
             env.advanceOneFrame();
         }
@@ -149,19 +149,19 @@ public abstract class Jeu {
         menuText.getText("Niveau4").clean();
         menuText.getText("Niveau5").clean();
         switch (niveau) {
-            case Keyboard.KEY_1:
+            case Keyboard.KEY_Y:
                 niveau = 1;
                 break;
-            case Keyboard.KEY_2:
+            case Keyboard.KEY_U:
                 niveau = 2;
                 break;
-            case Keyboard.KEY_3:
+            case Keyboard.KEY_I:
                 niveau = 3;
                 break;
-            case Keyboard.KEY_4:
+            case Keyboard.KEY_O:
                 niveau = 4;
                 break;
-            case Keyboard.KEY_5:
+            case Keyboard.KEY_P:
                 niveau = 5;
                 break;
             default:
@@ -189,7 +189,7 @@ public abstract class Jeu {
 
             // vérifie qu'une touche 1, 2, 3 ou 4 est pressée
             int touche = 0;
-            while (!(touche == Keyboard.KEY_1 || touche == Keyboard.KEY_2 || touche == Keyboard.KEY_3 || touche == Keyboard.KEY_4)) {
+            while (!(touche == Keyboard.KEY_Y || touche == Keyboard.KEY_U || touche == Keyboard.KEY_I || touche == Keyboard.KEY_O)) {
                 touche = env.getKey();
                 env.advanceOneFrame();
             }
@@ -209,7 +209,7 @@ public abstract class Jeu {
                 // -----------------------------------------
                 // Touche 1 : Commencer une nouvelle partie
                 // -----------------------------------------                
-                case Keyboard.KEY_1: // choisi un niveau et charge un mot depuis le dico
+                case Keyboard.KEY_Y: // choisi un niveau et charge un mot depuis le dico
                     // .......... dico.******
                     // crée un nouvelle partie
                     int niveau = getNiveauMot();
@@ -239,7 +239,7 @@ public abstract class Jeu {
                 // -----------------------------------------
                 // Touche 2 : Charger une partie existante
                 // -----------------------------------------                
-                case Keyboard.KEY_2: // charge une partie existante
+                case Keyboard.KEY_U: // charge une partie existante
                     
                     niveau = getNiveauMot();
                     mot = dico.getMotDepuisListeNiveau(niveau);
@@ -264,14 +264,14 @@ public abstract class Jeu {
                 // -----------------------------------------
                 // Touche 3 : Sortie de ce jeu
                 // -----------------------------------------                
-                case Keyboard.KEY_3:
+                case Keyboard.KEY_I:
                     playTheGame = MENU_VAL.MENU_CONTINUE;
                     break;
 
                 // -----------------------------------------
                 // Touche 4 : Quitter le jeu
                 // -----------------------------------------                
-                case Keyboard.KEY_4:
+                case Keyboard.KEY_O:
                     playTheGame = MENU_VAL.MENU_SORTIE;
             }
         } while (playTheGame == MENU_VAL.MENU_JOUE);
@@ -293,7 +293,7 @@ public abstract class Jeu {
 
         // vérifie qu'une touche 1, 2 ou 3 est pressée
         int touche = 0;
-        while (!(touche == Keyboard.KEY_1 || touche == Keyboard.KEY_2 || touche == Keyboard.KEY_3)) {
+        while (!(touche == Keyboard.KEY_Y || touche == Keyboard.KEY_U || touche == Keyboard.KEY_I)) {
             touche = env.getKey();
             env.advanceOneFrame();
         }
@@ -308,7 +308,7 @@ public abstract class Jeu {
             // -------------------------------------
             // Touche 1 : Charger un profil existant
             // -------------------------------------
-            case Keyboard.KEY_1:
+            case Keyboard.KEY_Y:
                 // demande le nom du joueur existant
                 nomJoueur = getNomJoueur();
                 // charge le profil de ce joueur si possible
@@ -322,7 +322,7 @@ public abstract class Jeu {
             // -------------------------------------
             // Touche 2 : Créer un nouveau joueur
             // -------------------------------------
-            case Keyboard.KEY_2:
+            case Keyboard.KEY_U:
                 // demande le nom du nouveau joueur
                 nomJoueur = getNomJoueur();
                 // crée un profil avec le nom d'un nouveau joueur
@@ -333,7 +333,7 @@ public abstract class Jeu {
             // -------------------------------------
             // Touche 3 : Sortir du jeu
             // -------------------------------------
-            case Keyboard.KEY_3:
+            case Keyboard.KEY_I:
                 choix = MENU_VAL.MENU_SORTIE;
         }
         return choix;

@@ -1,4 +1,4 @@
-package xml;
+package game;
 
 
 import java.io.BufferedWriter;
@@ -26,10 +26,10 @@ public class FileUtil {
             file.createNewFile();
         }
         fw = new FileWriter(file.getAbsoluteFile());
-        try (BufferedWriter bw = new BufferedWriter(fw)) {
+       /* try (BufferedWriter bw = new BufferedWriter(fw)) {
             bw.write(source);
             //System.out.println("Done writing to " + fileName); //For testing
-        }
+        }*/
         fw.close();
     }    
     
