@@ -7,6 +7,7 @@ package game;
 
 import static com.jme3.math.FastMath.rand;
 import env3d.Env;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,8 +16,11 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import org.lwjgl.input.Keyboard;
- 
+import org.xml.sax.SAXException;
+
 /**
  *
  * @author gladen
@@ -83,7 +87,10 @@ public abstract class Jeu {
         //menu 1
         menuText.addText("1. Charger un profil de joueur existant ?", "Principal1", 250, 280);
         menuText.addText("2. Créer un nouveau joueur ?", "Principal2", 250, 260);
-        menuText.addText("3. Sortir du jeu ?", "Principal3", 250, 240);
+        menuText.addText("3. Ajouter un mot au dictionnaire ?", "ajoutMot", 250, 240);
+        menuText.addText("Choisissez un mot a ajouter : ", "nouveauMot", 200, 300);
+
+        menuText.addText("4. Sortir du jeu ?", "Principal3", 250, 220);
 
         //ajout choix niveau ?
         menuText.addText("Veuillez choisir un niveau de difficulté : ", "choixniveau", 200, 300);
@@ -99,7 +106,7 @@ public abstract class Jeu {
      * Gère le menu principal
      *
      */
-    public void execute() {
+    public void execute() throws ParserConfigurationException, SAXException, IOException, TransformerException {
 
         MENU_VAL mainLoop;
         mainLoop = MENU_VAL.MENU_SORTIE;
@@ -125,6 +132,15 @@ public abstract class Jeu {
         nomJoueur = menuText.getText("NomJoueur").lire(true);
         menuText.getText("NomJoueur").clean();
         return nomJoueur;
+    }
+
+    //ajout mot dictionnaire :
+    private String getNewMot() {
+        String newMot = "";
+        menuText.getText("nouveauMot").display();
+        newMot = menuText.getText("nouveauMot").lire(true);
+        menuText.getText("nouveauMot").clean();
+        return newMot;
     }
 
     int getNiveauMot() {
@@ -217,13 +233,10 @@ public abstract class Jeu {
                     String date = getDate();
 
                     partie = new Partie(date, mot, niveau);
-                    
-                     menuText.addText("Votre mot a trouver est : " + partie.getMot(), "motGame", 280, 50);
+
+                    menuText.addText("Votre mot a trouver est : " + partie.getMot(), "motGame", 280, 50);
 
                     menuText.getText("motGame").display();
-                   
-
-                   
 
                     //menuText.getText("motGame").clean();
                     //  menuText.getText("motGame").clean();
@@ -240,18 +253,15 @@ public abstract class Jeu {
                 // Touche 2 : Charger une partie existante
                 // -----------------------------------------                
                 case Keyboard.KEY_U: // charge une partie existante
-                    
+
                     niveau = getNiveauMot();
                     mot = dico.getMotDepuisListeNiveau(niveau);
-                    date = getDate(); 
+                    date = getDate();
                     partie = new Partie(date, mot, niveau); //XXXXXXXXX
                     // Recupère le mot de la partie existante
                     // ..........
                     // joue
-                    
-                    
-                    
-                    
+
                     env.setRoom(mainRoom);
 
                     partie = new Partie(date, mot, niveau);
@@ -278,7 +288,7 @@ public abstract class Jeu {
         return playTheGame;
     }
 
-    private MENU_VAL menuPrincipal() {
+    private MENU_VAL menuPrincipal() throws ParserConfigurationException, SAXException, IOException, TransformerException {
 
         MENU_VAL choix = MENU_VAL.MENU_CONTINUE;
         String nomJoueur;
@@ -289,11 +299,13 @@ public abstract class Jeu {
         menuText.getText("Question").display();
         menuText.getText("Principal1").display();
         menuText.getText("Principal2").display();
+        menuText.getText("ajoutMot").display();
+
         menuText.getText("Principal3").display();
 
         // vérifie qu'une touche 1, 2 ou 3 est pressée
         int touche = 0;
-        while (!(touche == Keyboard.KEY_Y || touche == Keyboard.KEY_U || touche == Keyboard.KEY_I)) {
+        while (!(touche == Keyboard.KEY_Y || touche == Keyboard.KEY_U || touche == Keyboard.KEY_I || touche == Keyboard.KEY_O)) {
             touche = env.getKey();
             env.advanceOneFrame();
         }
@@ -302,6 +314,9 @@ public abstract class Jeu {
         menuText.getText("Principal1").clean();
         menuText.getText("Principal2").clean();
         menuText.getText("Principal3").clean();
+        menuText.getText("ajoutMot").clean();
+
+        EditeurDico edit = new EditeurDico();
 
         // et décide quoi faire en fonction de la touche pressée
         switch (touche) {
@@ -330,11 +345,21 @@ public abstract class Jeu {
                 choix = menuJeu();
                 break;
 
-            // -------------------------------------
+            case Keyboard.KEY_O:
+                String newMot = getNewMot();
+                Integer niveau = getNiveauMot();
+        edit.lireDOM("../TuxLetterGame/src/test/dico.xml");
+
+                edit.ajouterMot(newMot, niveau);
+                edit.ecrireDOM("../TuxLetterGame/src/test/dico.xml");
+                choix = menuJeu();
+                break;
+// -------------------------------------
             // Touche 3 : Sortir du jeu
             // -------------------------------------
             case Keyboard.KEY_I:
                 choix = MENU_VAL.MENU_SORTIE;
+
         }
         return choix;
     }
