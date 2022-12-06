@@ -20,9 +20,11 @@ public class Letter extends EnvNode {
         setZ(z);
         setY(getScale() * 1.1); // positionnement en hauteur basé sur la taille de Tux
         String texturePath ="";
+        //si la lettre est un espace 
         if(Character.isWhitespace(l)){
             texturePath += "models/letter/cube.png";
         }else{
+            //sinon lui attribut un model en fonction de sa valeur
             this.letter = Character.toLowerCase(l);
             texturePath += "models/letter/"+letter+".png";
             

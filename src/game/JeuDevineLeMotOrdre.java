@@ -34,6 +34,7 @@ public class JeuDevineLeMotOrdre extends Jeu {
 
     @Override
     protected void démarrePartie(Partie partie, String mot) {
+        //au debut de la partie permet de recuperer le mot dans une variable annexe
         ajoutEnvJeu(mot);
         //initialisation du chrono 
         int limiteChrono = 20;
@@ -44,64 +45,43 @@ public class JeuDevineLeMotOrdre extends Jeu {
         nbLetterLeft = partie.getMot().length();
     }
 
-    private Boolean tuxTrouveLettre() {
-        //valeur par défaut 
-        //Boolean trouvee = coli(lettres.get(i));
-        for (Letter l : lettresRestantes) {
-            System.out.println(l.toString());
-            if (coli(l)) {
-                System.out.println(coli(l));
-                if (l == lettresRestantes.get(0)) {
-                    lettresRestantes.remove(l);
-                    lettresTrouvees.add(l);
-                    env.removeObject(l);
-                    System.out.print(l.getLetter());
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     @Override
     protected void appliqueRegles(Partie partie) {
-        int lettreIndice;
-        int i = 0;
-
+        //si le mot n'est pas trouvé
         if (!motATrouver.isEmpty()) {
             for (Letter l : lettres) {
+                //si tux est en contact avec une lettre
                 if (coli(l)) {
-                    System.out.println(l.toString());
+                    //si la lettre en contact avec tux est la premiere lettre 
+                    //du mot a trouvé
                     if (motATrouver.get(0).equals(l.toString())) {
+                        //supprimer la lettre de la room et l'enlever du mot a trouver
                         env.removeObject(l);
                         motATrouver.remove(0);
 
                     }
-                    // System.out.println("in");
-                } else {
-                    //  System.out.println("out");
                 }
 
             }
         }
 
+        //si le mot est trouvé -> fin de la partie
         if (motATrouver.isEmpty()) {
             found = true;
             partie.setEnd(true);
 
         }
+        
+        //si le chrono est fini -> fin de la partie
         if (!chrono.remainsTime()) {
             partie.setEnd(true);
-            // System.out.println("\nFIN de la partie \nPas de chance!!!");
         }
+        //s
         if (nbLetterLeft == 0) {
             // System.out.println("\nFIN de la partie \nBravo! C'est gagné!!! ");
             partie.setEnd(true);
         }
 
-        if (tuxTrouveLettre()) {
-            nbLetterLeft--;
-        }
     }
 
     @Override
@@ -114,8 +94,9 @@ public class JeuDevineLeMotOrdre extends Jeu {
         }
     }
 
+    //recupere le mot splité et l'envoie dans la variable motATrouvezr
     private void ajoutEnvJeu(String mot) {
-        caract = decouppeMot(mot);
+        caract = splitMot(mot);
 
         nbLettresrestantes = getNbLettresRestantes();
         for (char c : caract) {

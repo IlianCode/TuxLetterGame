@@ -6,7 +6,6 @@ package game;
 
 import env3d.Env;
 import env3d.advanced.EnvNode;
-import java.util.concurrent.TimeUnit;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -31,6 +30,9 @@ public class Tux extends EnvNode {
         setModel("models/tux/tux.obj");
     }
 
+    
+    //fonction renvoyant true si le tux touche un des côté de la carte 
+    //sinon renvoie false
     private Boolean testeRoomCollision(double x, double z) {
         Boolean res = false;
 
@@ -40,12 +42,12 @@ public class Tux extends EnvNode {
         if (z > 100 || z < 0) {
             res = true;
         }
-        //if(collision == true){
-        //   res =true;
-        // }
+        
         return res;
     }
 
+    //si tux touche un mur et veut sortir de la carte -> ne fait rien
+    //sinon avance dans la direction choisis
     public void deplace() throws InterruptedException {
         if (env.getKeyDown(Keyboard.KEY_Z) || env.getKeyDown(Keyboard.KEY_UP)) { // Fleche 'haut' ou Z
             // Haut
@@ -78,15 +80,7 @@ public class Tux extends EnvNode {
                 this.setZ(this.getZ() + 1.0);
             }
         }
-        /*if (env.getKeyDown(Keyboard.KEY_SPACE) || env.getKeyDown(Keyboard.KEY_UP)) { // Fleche 'bas' ou S
-            // Bas
-            this.setY(this.getY() + 4);
-            Thread.sleep(1000);
-            this.setY(this.getY() -4);
-
-
-        }*/
-
+     
     }
 
 }

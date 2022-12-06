@@ -48,27 +48,7 @@ public class Partie {
         this.temps = temps;
     }
 
-    /*Element getPartie(Document doc) {
-        Element partieElem = (Element) doc.createElement("partie");
-        partieElem.setAttribute("date", this.date);
-        partieElem.setAttribute("trouvé", this.trouvé + "%");
-
-        //balise temps 
-        Element tempsElem = (Element) doc.createElement("temps");
-        tempsElem.appendChild(doc.createTextNode("" + this.temps));
-
-        //balise mot avec attribut niveau
-        Element motElem = (Element) doc.createElement("mot");
-        motElem.setAttribute("niveau", "" + this.niveau);
-        motElem.appendChild(doc.createTextNode(this.mot));
-
-        //relie 
-        partieElem.appendChild(tempsElem);
-        partieElem.appendChild(motElem);
-
-        return partieElem;
-    }*/
-
+    
     public Element createPartieOnDOM(Document doc) {
         //balise partie avec attribut date et trouvé        
         Element partieElem = (Element) doc.createElement("ns1:partie");

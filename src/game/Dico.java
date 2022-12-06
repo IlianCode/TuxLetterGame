@@ -25,6 +25,7 @@ import org.xml.sax.SAXException;
  */
 public class Dico extends DefaultHandler{
 
+   //Liste des mots de différents niveaux
     private ArrayList<String> listeNiveau1;
     private ArrayList<String> listeNiveau2;
     private ArrayList<String> listeNiveau3;
@@ -37,6 +38,7 @@ public class Dico extends DefaultHandler{
 
     private StringBuffer buffer;
 
+    //constructeur de dictionnaire selon le chemin
     public Dico(String cheminFichierDico) throws ParserConfigurationException {
         super();
         this.cheminFichierDico = cheminFichierDico;
@@ -46,6 +48,7 @@ public class Dico extends DefaultHandler{
         listeNiveau4 = new ArrayList<String>();
         listeNiveau5 = new ArrayList<String>();
         try {
+            //lis le dictionnaire en sax
             lireDictionnaire();
         } catch (SAXException ex) {
             Logger.getLogger(Dico.class.getName()).log(Level.SEVERE, null, ex);
@@ -53,7 +56,8 @@ public class Dico extends DefaultHandler{
             Logger.getLogger(Dico.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+//verifie que le niveau saisi est entre 1 et 5
     private int vérifieNiveau(int niveau) {
         int min = 1;
         int max = 5;
@@ -74,6 +78,7 @@ public class Dico extends DefaultHandler{
         return res;
     }
 
+    //selon le niveau saisi, pioche un mot dans la liste associé
     public String getMotDepuisListeNiveau(int niveau) {
         String res = "";
         int niveauVerif = vérifieNiveau(niveau);
@@ -98,6 +103,7 @@ public class Dico extends DefaultHandler{
         return res;
     }
 
+    //pioche un mot aléatoire dans une liste
     private String getMotDepuisListe(ArrayList<String> list) {
         String res = "";
         int max = list.size();
@@ -109,6 +115,7 @@ public class Dico extends DefaultHandler{
 
     }
 
+    //permet d'ajouter un mot dans le dictionnaire 
     public void ajouteMotADico(int niveau, String mot) {
         if (verifNiveau(niveau)) {
             switch (niveau) {
@@ -132,6 +139,7 @@ public class Dico extends DefaultHandler{
         }
     }
 
+    //fonction pour lire dans le dictionnaire en DOM
     public void lireDictionnaireDOM(String path, String filename) throws SAXException, IOException {
         int j = 0;
         DOMParser parser;
@@ -191,6 +199,7 @@ public class Dico extends DefaultHandler{
 
     }
 
+    //fonction pour lire dans le disctionnaire en sax
     public void lireDictionnaire() throws SAXException, IOException, ParserConfigurationException {
         SAXParserFactory fabrique = SAXParserFactory.newInstance();
         SAXParser parseur = fabrique.newSAXParser();
@@ -201,6 +210,7 @@ public class Dico extends DefaultHandler{
 
     }
 
+    @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
         buffer = new StringBuffer();
         if (qName.equals("mot")) {

@@ -28,7 +28,7 @@ public class Room {
     private String textureSouth;
 
     Document doc;
-
+//constructeur de la room par défaut
     public Room() {
         this.depth = 100;
         this.height = 100;
@@ -42,6 +42,7 @@ public class Room {
 
     }
 
+    //creation de la room en sax
     public Room(String filename) throws ParserConfigurationException, SAXException, IOException {
         doc = fromXML(filename);
         height = Integer.parseInt(doc.getElementsByTagName("height").item(0).getTextContent());
@@ -53,6 +54,8 @@ public class Room {
         textureWest = doc.getElementsByTagName("textureWest").item(0).getTextContent();
     }
 
+    
+    //getter et setter
     public int getDepth() {
         return depth;
     }

@@ -117,7 +117,7 @@ public abstract class Jeu {
 
         env.exit();
     }
-
+//fonction pour recuperer la date du jour
     String getDate() {
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
@@ -125,7 +125,7 @@ public abstract class Jeu {
         return strDate;
     }
 
-    // fourni
+    // permet d'afficher le menu permettant de recuperer le nom du joueur a créer
     private String getNomJoueur() {
         String nomJoueur = "";
         menuText.getText("NomJoueur").display();
@@ -134,7 +134,7 @@ public abstract class Jeu {
         return nomJoueur;
     }
 
-    //ajout mot dictionnaire :
+    //permet d'afficher le menu pour recuperer un nouveau mot a ajouter au dictionnaire
     private String getNewMot() {
         String newMot = "";
         menuText.getText("nouveauMot").display();
@@ -143,6 +143,8 @@ public abstract class Jeu {
         return newMot;
     }
 
+    //permet d'afficher le menu servant a recuperer le niveau choisis par l'utilisateur
+    //soit pour ajouter un mot soit pour choisir le niveau de la partie a jouer
     int getNiveauMot() {
 
         //affichage choix niveau
@@ -187,7 +189,7 @@ public abstract class Jeu {
         return niveau;
     }
 
-    // fourni, à compléter
+    // affiche le second menu du jeu
     private MENU_VAL menuJeu() {
 
         MENU_VAL playTheGame;
@@ -291,6 +293,7 @@ public abstract class Jeu {
         return playTheGame;
     }
 
+    //affiche le premier menu du jeu
     private MENU_VAL menuPrincipal() throws ParserConfigurationException, SAXException, IOException, TransformerException {
 
         MENU_VAL choix = MENU_VAL.MENU_CONTINUE;
@@ -326,6 +329,9 @@ public abstract class Jeu {
             // -------------------------------------
             // Touche 1 : Charger un profil existant
             // -------------------------------------
+            
+            //code non fonctionnel pour le moment pour charger un profil
+            
             /*case Keyboard.KEY_Y:
                 // demande le nom du joueur existant
                 nomJoueur = getNomJoueur();
@@ -344,14 +350,14 @@ public abstract class Jeu {
             // Touche 2 : Créer un nouveau joueur
             // -------------------------------------
             case Keyboard.KEY_U:
-                // demande le nom du nouveau joueur
+                //créer un nouveau joueur et passe au secon menu
                 nomJoueur = getNomJoueur();
-                // crée un profil avec le nom d'un nouveau joueur
-                profil = new Profil(nomJoueur, "29-11-2022");
+                profil = new Profil(nomJoueur, getDate());
                 choix = menuJeu();
                 break;
 
             case Keyboard.KEY_I:
+                //permet d'ajouter un nouveau mot au dictionnaire
                 String newMot = getNewMot();
                 Integer niveau = getNiveauMot();
                 edit.lireDOM("../TuxLetterGame/src/Data/xml/dico.xml");
@@ -360,7 +366,7 @@ public abstract class Jeu {
                 edit.ecrireDOM(".../TuxLetterGame/src/Data/xml/dico.xml");
                 choix = menuJeu();
                 break;
-// -------------------------------------
+            // -------------------------------------
             // Touche 3 : Sortir du jeu
             // -------------------------------------
             case Keyboard.KEY_O:
@@ -370,7 +376,8 @@ public abstract class Jeu {
         return choix;
     }
 
-    public char[] decouppeMot(String mot) {
+    //Split le mot en parametre dans un tableau 
+    public char[] splitMot(String mot) {
         char motdecoupé[];
         motdecoupé = new char[mot.length()];
 
@@ -380,15 +387,16 @@ public abstract class Jeu {
 
         return motdecoupé;
     }
-
+//fonction permettant au jeu de se dérouler
     public void joue(Partie partie) {
 
-        // Instancie un Tux
+        // Instancie un Tux et l'ajoute dans la room
         tux = new Tux(env, mainRoom);
         env.addObject(tux);
-        //dico.ajouteMotADico(1, "cheval");
+        
+        
+        //recuperer un mot et ajoute chacune de ses lettre dans la room
         String motAdd = partie.getMot();
-        //String motAdd = "t";
         for (int i = 0; i < motAdd.length(); i++) {
             lettres.add(new Letter(motAdd.charAt(i), rand.nextInt(60), rand.nextInt(100)));
         }
@@ -397,8 +405,7 @@ public abstract class Jeu {
             env.addObject(l);
         }
 
-        //env.setRoom(mainRoom);
-        // Ici, on peut initialiser des valeurs pour une nouvelle partie
+        
         démarrePartie(partie, motAdd);
 
         // Boucle de jeu
@@ -407,16 +414,18 @@ public abstract class Jeu {
         Date startDate = new Date();
 
         while (!finished) {
+            //affiche le mot a trouver pendant 10 seconde en bas de l'ecran
             Date endDate = new Date();
             int numSeconds = (int) ((endDate.getTime() - startDate.getTime()) / 1000);
             if (numSeconds == 10) {
                 menuText.getText("motGame").clean();
 
             }
+            
+            
             Boolean col = false;
 
-            // Contrôles globaux du jeu (sortie, ...)
-            //1 is for escape key
+            //si on appuis sur echap fin de la partie
             if (env.getKey() == 1) {
                 finished = true;
                 menuText.getText("motGame").clean();
@@ -431,12 +440,14 @@ public abstract class Jeu {
 
             // Ici, on applique les regles
             appliqueRegles(partie);
+            //si le mot est trouvé" entieremennt, fin de la partie
             finished = isFound(partie);
 
             // Fait avancer le moteur de jeu (mise à jour de l'affichage, de l'écoute des événements clavier...)
             env.advanceOneFrame();
 
         }
+        //sassure que la room n'a plus aucune lettre
         for (Letter l : lettres) {
             env.removeObject(l);
         }
@@ -455,6 +466,7 @@ public abstract class Jeu {
 
     protected abstract boolean isFound(Partie partie);
 
+    //calcule la distance entre tux et la lettre en parametre
     protected double distance(Letter letter) {
         double dist;
         dist = Math.sqrt(Math.pow(letter.getX() - tux.getX(), 2) + Math.pow(letter.getY() - tux.getY(), 2) + Math.pow(letter.getZ() - tux.getZ(), 2));
@@ -462,6 +474,7 @@ public abstract class Jeu {
 
     }
 
+    //verifie si tux est au contact de la lettre en parametre
     public boolean coli(Letter lettre) {
         boolean res = false;
         if (distance(lettre) < tux.getScale() + lettre.getScale()) {
