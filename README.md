@@ -7,3 +7,6 @@ Pour pouvoir essayer le jeu, il vous faudra dans un premier temps télécharger 
 Il vous faudra dans les paramètres du projet préciser l'utilisation de ```JDK 8``` sans quoi le moteur de jeu env3D ne saurait fonctionner correctement.<br> 
 Le moteur Env3D n'est pour le moment pas supporté sur les mac m1.<br> <br> 
 
+Exemple de partie rapide sur un mot de niveau 2: <br>
+![Alt Text](https://media.giphy.com/media/EAJuBw7hBVxnSWtvmQ/giphy.gif)
+
